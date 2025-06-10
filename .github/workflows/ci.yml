@@ -2,8 +2,8 @@ name: CI Pipeline with Auto Release and DEB Packaging
 
 on:
   push:
-    branches: [master]  # или main — зависит от твоей ветки
-  workflow_dispatch:     # позволяет запускать вручную через GitHub UI
+    branches: [master]  # или main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -46,6 +46,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: always()
         with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          body: |
+            Auto-generated release from GitHub Actions.
+            Workflow: ${{ github.workflow }}
+            Run ID: ${{ github.run_id }}
           files: hero-builder.deb
-          generate_release_notes: true
           token: ${{ secrets.GITHUB_TOKEN }}
