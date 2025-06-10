@@ -32,7 +32,11 @@ jobs:
       - name: Create DEB package
         run: |
           mkdir -p deb/DEBIAN deb/usr/local/bin
+          
+          # Копируем исполняемый файл character_example
           cp build/character_example deb/usr/local/bin/
+          
+          # Создаем control-файл для DEB
           echo "Package: herobuilder" > deb/DEBIAN/control
           echo "Version: 1.0" >> deb/DEBIAN/control
           echo "Section: base" >> deb/DEBIAN/control
@@ -41,6 +45,7 @@ jobs:
           echo "Maintainer: Your Name <you@example.com>" >> deb/DEBIAN/control
           echo "Description: Example of Builder Design Pattern in C++" >> deb/DEBIAN/control
           echo "Depends: libc6 (>= 2.34)" >> deb/DEBIAN/control
+
           dpkg-deb --build deb hero-builder.deb
 
       - name: Upload DEB as Release Asset
