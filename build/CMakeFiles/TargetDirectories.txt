@@ -1,7 +1,0 @@
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/CharacterBuilder.dir
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/character_example.dir
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/test_Character.dir
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/test_CharacterBuilder.dir
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/test.dir
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/edit_cache.dir
-/home/marboss/designpattern/Builder Design Pattern/build/CMakeFiles/rebuild_cache.dir

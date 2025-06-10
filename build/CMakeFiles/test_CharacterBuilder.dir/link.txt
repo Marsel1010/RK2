@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/test_CharacterBuilder.dir/tests/test_CharacterBuilder.cpp.o -o test_CharacterBuilder  libCharacterBuilder.a -lpthread /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a -lpthread
