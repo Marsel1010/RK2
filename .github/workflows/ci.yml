@@ -1,10 +1,9 @@
-name: CI Pipeline with DEB Packaging
+name: CI Pipeline with Auto Release and DEB Packaging
 
 on:
   push:
-    branches: [master]
-  release:
-    types: [published]
+    branches: [master]  # или main — зависит от твоей ветки
+  workflow_dispatch:     # позволяет запускать вручную через GitHub UI
 
 jobs:
   build:
@@ -32,11 +31,7 @@ jobs:
       - name: Create DEB package
         run: |
           mkdir -p deb/DEBIAN deb/usr/local/bin
-          
-          # Копируем исполняемый файл character_example
           cp build/character_example deb/usr/local/bin/
-          
-          # Создаем control-файл для DEB
           echo "Package: herobuilder" > deb/DEBIAN/control
           echo "Version: 1.0" >> deb/DEBIAN/control
           echo "Section: base" >> deb/DEBIAN/control
@@ -45,16 +40,12 @@ jobs:
           echo "Maintainer: Your Name <you@example.com>" >> deb/DEBIAN/control
           echo "Description: Example of Builder Design Pattern in C++" >> deb/DEBIAN/control
           echo "Depends: libc6 (>= 2.34)" >> deb/DEBIAN/control
-
           dpkg-deb --build deb hero-builder.deb
 
-      - name: Upload DEB as Release Asset
-        if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release and Upload DEB
+        uses: softprops/action-gh-release@v1
+        if: always()
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./hero-builder.deb
-          asset_name: hero-builder.deb
-          asset_content_type: application/vnd.debian.binary-package
+          files: hero-builder.deb
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
