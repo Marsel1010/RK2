@@ -1,0 +1,55 @@
+name: CI Pipeline with DEB Packaging
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake g++ googletest libgtest-dev git dpkg-dev
+
+      - name: Build project
+        run: |
+          mkdir build && cd build
+          cmake ..
+          make
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure
+
+      - name: Create DEB package
+        run: |
+          mkdir -p deb/DEBIAN deb/usr/local/bin
+          cp build/character_example deb/usr/local/bin/
+          echo "Package: herobuilder" > deb/DEBIAN/control
+          echo "Version: 1.0" >> deb/DEBIAN/control
+          echo "Section: base" >> deb/DEBIAN/control
+          echo "Priority: optional" >> deb/DEBIAN/control
+          echo "Architecture: amd64" >> deb/DEBIAN/control
+          echo "Maintainer: Your Name <you@example.com>" >> deb/DEBIAN/control
+          echo "Description: Example of Builder Design Pattern in C++" >> deb/DEBIAN/control
+          echo "Depends: libc6 (>= 2.34)" >> deb/DEBIAN/control
+          dpkg-deb --build deb hero-builder.deb
+
+      - name: Upload DEB as Release Asset
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./hero-builder.deb
+          asset_name: hero-builder.deb
+          asset_content_type: application/vnd.debian.binary-package

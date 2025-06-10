@@ -1,0 +1,2 @@
+/usr/bin/ar qc libCharacterBuilder.a CMakeFiles/CharacterBuilder.dir/src/Character.cpp.o CMakeFiles/CharacterBuilder.dir/src/HeroBuilder.cpp.o CMakeFiles/CharacterBuilder.dir/src/Director.cpp.o
+/usr/bin/ranlib libCharacterBuilder.a
