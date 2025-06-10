@@ -54,4 +54,4 @@ jobs:
             Run ID: ${{ github.run_id }}
           files: hero-builder.deb
           generate_release_notes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
