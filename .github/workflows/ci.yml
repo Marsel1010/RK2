@@ -2,8 +2,8 @@ name: CI Pipeline with Auto Release and DEB Packaging
 
 on:
   push:
-    branches: [master]
-  workflow_dispatch:
+    branches: [master]  
+  workflow_dispatch:    
 
 jobs:
   build:
@@ -54,4 +54,4 @@ jobs:
             Run ID: ${{ github.run_id }}
           files: hero-builder.deb
           generate_release_notes: true
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_PAT }}  
